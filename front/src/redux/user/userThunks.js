@@ -23,3 +23,23 @@ export const fetchUserByEmail = createAsyncThunk(
     }
   }
 );
+
+export const getUserProfile = createAsyncThunk(
+  "user/getUserProfile",
+  async (_, thunkAPI) => {
+    try {
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+
+      const response = await axios.get(`${BASE_URL}profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);

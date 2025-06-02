@@ -1,13 +1,17 @@
 import Logo from "../Logo";
-import HeaderUserNotLogged from "../HeaderUserNotLogged";
 import "./Header.css";
+import { useSelector } from "react-redux";
+import HeaderUserNotLogged from "../HeaderUserNotLogged";
+import HeaderUserLogged from "../HeaderUserLogged";
 
 const Header = () => {
+  const state = useSelector((state) => state.user);
   return (
     <nav className="main-nav">
       <Logo />
-      <HeaderUserNotLogged />
-      {/* ternaire HeaderUserNotLogged : HeaderUserLogged */}
+      <div>
+        {state.isLogged ? <HeaderUserLogged /> : <HeaderUserNotLogged />}
+      </div>
     </nav>
   );
 };

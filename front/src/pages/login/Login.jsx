@@ -3,7 +3,7 @@ import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import "./login.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserByEmail } from "../../redux/user/userThunks";
+import { fetchUserByEmail, getUserProfile } from "../../redux/user/userThunks";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -13,8 +13,8 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
-  const isLogged = useSelector((state) => state.user.isLogged);
   const dispatch = useDispatch();
+  const isLogged = useSelector((state) => state.user.isLogged);
   const statusMessage = useSelector((state) => state.user.statusMessage);
 
   useEffect(() => {
@@ -25,7 +25,12 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(fetchUserByEmail({ email, password, rememberMe }));
+    dispatch(fetchUserByEmail({ email, password, rememberMe }))
+      .unwrap()
+      .then(() => {
+        console.log("LOGIN OK – fetching profile");
+        dispatch(getUserProfile());
+      });
   };
 
   return (

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUserByEmail } from "./userThunks";
+import { fetchUserByEmail, getUserProfile } from "./userThunks";
 
 const initialState = {
   userInfo: {},
@@ -11,9 +11,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: () => {
-      return { ...initialState };
-    },
+    logout: () => ({ ...initialState }),
     handleStatutMessage: (state) => {
       state.statusMessage = "";
     },
@@ -26,10 +24,13 @@ export const userSlice = createSlice({
       .addCase(fetchUserByEmail.fulfilled, (state, action) => {
         state.isLogged = true;
         state.statusMessage = action.payload.message;
-        state.userInfo = action.payload.body;
       })
       .addCase(fetchUserByEmail.rejected, (state, action) => {
         state.statusMessage = action.payload.message;
+      })
+
+      .addCase(getUserProfile.fulfilled, (state, action) => {
+        state.userInfo = action.payload.body;
       });
   },
 });
