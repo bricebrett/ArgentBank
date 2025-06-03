@@ -5,6 +5,7 @@ import Error404 from "../pages/error404/Error404";
 import Home from "../pages/Home";
 import Login from "../pages/login/Login";
 import Profile from "../pages/profile/Profile";
+import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,12 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Profile />,
+
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

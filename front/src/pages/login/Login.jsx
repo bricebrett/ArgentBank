@@ -28,7 +28,6 @@ const Login = () => {
     dispatch(fetchUserByEmail({ email, password, rememberMe }))
       .unwrap()
       .then(() => {
-        console.log("LOGIN OK – fetching profile");
         dispatch(getUserProfile());
       });
   };
