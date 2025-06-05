@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUserByEmail, getUserProfile } from "./userThunks";
+import { fetchUserByEmail, getUserProfile, updateUserName } from "./userThunks";
 
 const initialState = {
   userInfo: {},
@@ -31,6 +31,20 @@ export const userSlice = createSlice({
 
       .addCase(getUserProfile.fulfilled, (state, action) => {
         state.userInfo = action.payload.body;
+      })
+
+      .addCase(updateUserName.pending, (state) => {
+        state.statusMessage = "Updating username...";
+      })
+      .addCase(updateUserName.fulfilled, (state, action) => {
+        state.userInfo = {
+          ...state.userInfo,
+          userName: action.payload.body.userName,
+        };
+        state.statusMessage = action.payload.message;
+      })
+      .addCase(updateUserName.rejected, (state, action) => {
+        state.statusMessage = action.payload.message;
       });
   },
 });

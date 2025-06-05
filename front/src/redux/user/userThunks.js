@@ -43,3 +43,27 @@ export const getUserProfile = createAsyncThunk(
     }
   }
 );
+
+export const updateUserName = createAsyncThunk(
+  "user/updateUserName",
+  async ({ userName }, thunkAPI) => {
+    try {
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
+
+      const response = await axios.put(
+        `${BASE_URL}profile`,
+        { userName },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
