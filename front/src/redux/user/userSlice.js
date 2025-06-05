@@ -5,6 +5,7 @@ const initialState = {
   userInfo: {},
   statusMessage: "",
   isLogged: false,
+  isLoading: true,
 };
 
 export const userSlice = createSlice({
@@ -29,8 +30,17 @@ export const userSlice = createSlice({
         state.statusMessage = action.payload.message;
       })
 
+      .addCase(getUserProfile.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(getUserProfile.fulfilled, (state, action) => {
         state.userInfo = action.payload.body;
+        state.isLogged = true;
+        state.isLoading = false;
+      })
+      .addCase(getUserProfile.rejected, (state) => {
+        state.isLogged = false;
+        state.isLoading = false;
       })
 
       .addCase(updateUserName.pending, (state) => {
