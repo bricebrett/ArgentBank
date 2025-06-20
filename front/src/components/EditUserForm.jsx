@@ -2,6 +2,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { updateUserName } from "../redux/user/userThunks";
 
+/**
+ * Formulaire de modification du nom d'utilisateur.
+ *
+ * Affiche les infos utilisateur (firstName et lastName en lecture seule)
+ * et permet de modifier le userName. Une fois enregistré, le formulaire se ferme.
+ *
+ */
+
 const EditUserForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);

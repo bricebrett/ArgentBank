@@ -1,0 +1,15 @@
+.error404-container {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: white;
+}
+
+.error-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}

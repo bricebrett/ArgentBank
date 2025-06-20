@@ -2,6 +2,24 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getToken } from "../../utils/auth";
 
+/**
+ * Thunks Redux liés à la gestion des utilisateurs (authentification, profil, mise à jour du nom).
+ *
+ * - `fetchUserByEmail` :
+ *    -> Méthode POST vers /login.
+ *    -> Authentifie un utilisateur à partir de son email et mot de passe.
+ *    -> Stocke le token dans le `localStorage` si "remember me" est activé, sinon dans `sessionStorage`.
+ *
+ * - `getUserProfile` :
+ *    -> Méthode GET vers /profile.
+ *    -> Récupère les informations de profil de l'utilisateur connecté grâce au token.
+ *
+ * - `updateUserName` :
+ *    -> Méthode PUT vers /profile.
+ *    -> Permet de modifier uniquement le champ `userName` dans le profil utilisateur.
+ *
+ */
+
 const BASE_URL = "http://localhost:3001/api/v1/user/";
 
 export const fetchUserByEmail = createAsyncThunk(

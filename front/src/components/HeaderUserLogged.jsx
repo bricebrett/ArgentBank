@@ -6,6 +6,16 @@ import { logout } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
+/**
+ * Affiche les éléments du header lorsque l'utilisateur est connecté.
+ *
+ * - Affiche le nom d'utilisateur et l'icône de profil.
+ * - Permet la déconnexion via un bouton "Sign Out" qui :
+ *   - déclenche le logout Redux,
+ *   - supprime le token du stockage,
+ *   - redirige vers la page d’accueil.
+ */
+
 const HeaderUserLogged = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

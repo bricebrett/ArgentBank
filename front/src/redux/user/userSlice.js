@@ -1,11 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchUserByEmail, getUserProfile, updateUserName } from "./userThunks";
 
+/**
+ * Slice Redux pour gérer l'état utilisateur.
+ *
+ * - `userInfo` : stocke les informations de l'utilisateur connecté (nom, prénom, etc.).
+ * - `isLogged` : booléen indiquant si l'utilisateur est authentifié.
+ *
+ * Reducers :
+ * - `logout` : réinitialise l'état utilisateur à sa valeur initiale (déconnexion).
+ *
+ * ExtraReducers :
+ * - `fetchUserByEmail.fulfilled` : déclenché après une connexion réussie, passe `isLogged` à `true`.
+ * - `getUserProfile.fulfilled` : remplit `userInfo` avec les données du profil et passe `isLogged` à `true`.
+ * - `updateUserName.fulfilled` : met à jour uniquement le champ `userName` de `userInfo`.
+ */
+
 const initialState = {
   userInfo: {},
-  statusMessage: "",
   isLogged: false,
-  isLoading: true,
 };
 
 export const userSlice = createSlice({
@@ -13,48 +26,23 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     logout: () => ({ ...initialState }),
-    handleStatutMessage: (state) => {
-      state.statusMessage = "";
-    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUserByEmail.pending, (state) => {
-        state.statusMessage = "Logging in...";
-      })
-      .addCase(fetchUserByEmail.fulfilled, (state, action) => {
+      .addCase(fetchUserByEmail.fulfilled, (state) => {
         state.isLogged = true;
-        state.statusMessage = action.payload.message;
-      })
-      .addCase(fetchUserByEmail.rejected, (state, action) => {
-        state.statusMessage = action.payload.message;
       })
 
-      .addCase(getUserProfile.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(getUserProfile.fulfilled, (state, action) => {
         state.userInfo = action.payload.body;
         state.isLogged = true;
-        state.isLoading = false;
-      })
-      .addCase(getUserProfile.rejected, (state) => {
-        state.isLogged = false;
-        state.isLoading = false;
       })
 
-      .addCase(updateUserName.pending, (state) => {
-        state.statusMessage = "Updating username...";
-      })
       .addCase(updateUserName.fulfilled, (state, action) => {
         state.userInfo = {
           ...state.userInfo,
           userName: action.payload.body.userName,
         };
-        state.statusMessage = action.payload.message;
-      })
-      .addCase(updateUserName.rejected, (state, action) => {
-        state.statusMessage = action.payload.message;
       });
   },
 });

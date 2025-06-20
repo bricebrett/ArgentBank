@@ -7,6 +7,16 @@ import { fetchUserByEmail, getUserProfile } from "../../redux/user/userThunks";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
+/**
+ * Page de connexion de l’utilisateur.
+ *
+ * - Permet de saisir l’email, le mot de passe et l’option "Remember me".
+ * - À la soumission :
+ *   - Envoie une requête d’authentification via Redux.
+ *   - Puis récupère le profil de l'utilisateur s’il est connecté.
+ * - Redirige automatiquement vers `/profile` si la connexion est déjà active.
+ */
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +25,6 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.user.isLogged);
-  const statusMessage = useSelector((state) => state.user.statusMessage);
 
   useEffect(() => {
     if (isLogged) {
@@ -69,7 +78,6 @@ const Login = () => {
             Sign In
           </button>
         </form>
-        {statusMessage && <p style={{ color: "white" }}>{statusMessage}</p>}
       </div>
     </section>
   );
